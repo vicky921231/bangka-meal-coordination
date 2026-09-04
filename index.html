@@ -194,7 +194,7 @@ h1,h2,h3,h4{margin:0;line-height:1.3;letter-spacing:-.01em}
 .btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
 
 /* location picker */
-.locpick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.locpick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .loc{
   border:1.5px solid var(--line-2);border-radius:11px;padding:9px;background:#fff;transition:.13s;text-align:center
 }
@@ -445,8 +445,7 @@ h1,h2,h3,h4{margin:0;line-height:1.3;letter-spacing:-.01em}
    ========================================================= */
 const LOCATIONS = [
   {id:'a', name:'龍山寺廊道',   cap:'遮雨、動線佳'},
-  {id:'b', name:'三水街側廣場', cap:'空間大、易聚集'},
-  {id:'c', name:'公園中央廣場', cap:'鄰近休憩區'}
+  {id:'b', name:'三水街側廣場', cap:'空間大、易聚集'}
 ];
 const SLOTS = [
   {id:'m', label:'早',  time:'07:00-09:00', name:'早餐'},
@@ -464,13 +463,13 @@ const SEED = {
     {date:'2026-09-08', slot:'n', loc:'a', group:'心願便當隊',     qty:40},
     {date:'2026-09-08', slot:'e', loc:'b', group:'愛心阿姨團',     qty:100},
     {date:'2026-09-08', slot:'e', loc:'b', group:'教會志工隊',     qty:80},
-    {date:'2026-09-10', slot:'e', loc:'c', group:'好鄰居關懷協會', qty:55},
+    {date:'2026-09-10', slot:'e', loc:'b', group:'好鄰居關懷協會', qty:55},
     {date:'2026-09-11', slot:'e', loc:'b', group:'愛心阿姨團',     qty:70},
     {date:'2026-09-11', slot:'e', loc:'b', group:'教會志工隊',     qty:60},
     {date:'2026-09-11', slot:'e', loc:'a', group:'企業志工社',     qty:50},
     {date:'2026-09-12', slot:'m', loc:'a', group:'晨光關懷小組',   qty:25},
     {date:'2026-09-12', slot:'n', loc:'a', group:'心願便當隊',     qty:40},
-    {date:'2026-09-12', slot:'n', loc:'c', group:'慈心素食協會',   qty:25},
+    {date:'2026-09-12', slot:'n', loc:'b', group:'慈心素食協會',   qty:25},
     {date:'2026-09-13', slot:'n', loc:'b', group:'教會志工隊',     qty:70}
   ]
 };
@@ -661,22 +660,21 @@ function openRegister(date, slot){
   renderHint();
 }
 
-function miniMap(active){
-  const on = '#D94F2B', off = '#DCD3CB';
-  const c = id => id===active ? on : off;
-  return `<svg width="58" height="34" viewBox="0 0 58 34">
-    <rect x="1" y="1" width="56" height="32" rx="6" fill="#F7F3EF" stroke="#E4DAD2"/>
-    <rect x="6"  y="6"  width="14" height="22" rx="4" fill="${c('a')}" opacity="${active==='a'?1:.4}"/>
-    <rect x="23" y="6"  width="14" height="22" rx="4" fill="${c('c')}" opacity="${active==='c'?1:.4}"/>
-    <rect x="40" y="6"  width="12" height="22" rx="4" fill="${c('b')}" opacity="${active==='b'?1:.4}"/>
+/* 艋舺公園簡化平面示意：左側龍山寺廊道、右側三水街側廣場。
+   每張卡片畫的是「自己那一區」的位置，highlight 的永遠是該卡片代表的地點。 */
+function miniMap(spot){
+  const fill = id => id===spot ? '#D94F2B' : '#DCD3CB';
+  const op   = id => id===spot ? 1 : .45;
+  return `<svg width="66" height="34" viewBox="0 0 66 34" aria-hidden="true">
+    <rect x="1" y="1" width="64" height="32" rx="6" fill="#F7F3EF" stroke="#E4DAD2"/>
+    <rect x="6"  y="6" width="23" height="22" rx="4" fill="${fill('a')}" opacity="${op('a')}"/>
+    <rect x="37" y="6" width="23" height="22" rx="4" fill="${fill('b')}" opacity="${op('b')}"/>
   </svg>`;
 }
 function pickLoc(id){
   form.loc = id;
   document.querySelectorAll('#f-loc .loc').forEach(b=>{
-    const on = b.dataset.l===id;
-    b.classList.toggle('on', on);
-    b.querySelector('svg').outerHTML = miniMap(id);
+    b.classList.toggle('on', b.dataset.l===id);
   });
 }
 
