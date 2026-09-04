@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>艋舺共餐時段板 — 發餐協調 App Demo</title>
+<title>艋舺善循環 — 發餐協調 App Demo</title>
 <meta name="description" content="艋舺公園發餐團體的共享時段登記表：出發前先看到其他團體的計畫，自主錯開時段、抓準份數。PSBH 問題解決松前端展示原型。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -269,12 +269,35 @@ h1,h2,h3,h4{margin:0;line-height:1.3;letter-spacing:-.01em}
 .morenote b{color:var(--ink-2);font-weight:800}
 
 /* future */
-.futs{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.fut{padding:22px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh)}
-.fut .ic{font-size:24px;margin-bottom:11px}
-.fut h4{font-size:16px;font-weight:800;margin-bottom:8px}
-.fut p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.65}
-.fut .ph{display:inline-block;margin-top:12px;font-size:11px;font-weight:800;color:var(--muted);background:#F2ECE7;padding:3px 9px;border-radius:99px}
+.fut-main{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh);padding:26px 28px;margin-bottom:16px
+}
+.fut-lead{max-width:640px;margin-bottom:24px}
+.fut-lead .ic{font-size:24px;margin-bottom:12px}
+.fut-lead h3{font-size:19px;font-weight:800;margin-bottom:10px;text-wrap:balance}
+.fut-lead p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.75}
+.fut-lead p b{color:var(--ink);font-weight:800}
+.fut-items{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.fitem{padding:15px 16px;border-radius:11px;background:#FCFAF8;border:1px solid var(--line)}
+.fitem .ft{font-size:14.5px;font-weight:800;margin-bottom:5px}
+.fitem .fd{font-size:12.5px;color:var(--muted);line-height:1.6}
+
+.fut-quote{
+  border-radius:var(--r);padding:26px 30px 24px;
+  background:linear-gradient(100deg,#FFF6F1,#FFFDFB);border:1px solid #F3DED3
+}
+.fut-quote .q-lbl{font-size:11.5px;font-weight:800;letter-spacing:.09em;color:var(--muted);margin-bottom:14px}
+.fut-quote .q-name{font-size:13.5px;font-weight:800;color:var(--brand);margin-bottom:9px}
+.fut-quote blockquote{
+  margin:0;font-size:19px;line-height:1.9;font-weight:500;color:var(--ink);
+  max-width:32em;text-wrap:pretty
+}
+.fut-quote .q-foot{
+  margin-top:20px;padding-top:16px;border-top:1px solid #F0D9CD;
+  font-size:13.5px;color:var(--ink-2);line-height:1.75;max-width:44em
+}
+.fut-quote .q-foot b{color:var(--ink);font-weight:800}
 
 /* toast */
 #toast{
@@ -287,12 +310,15 @@ h1,h2,h3,h4{margin:0;line-height:1.3;letter-spacing:-.01em}
 @media (max-width:980px){
   .probs{grid-template-columns:1fr 1fr}
   .stats{grid-template-columns:1fr 1fr}
-  .futs{grid-template-columns:1fr}
+  .fut-items{grid-template-columns:1fr 1fr}
 }
 @media (max-width:700px){
   .landing h1{font-size:30px}
   .rolecards{grid-template-columns:1fr}
   .probs{grid-template-columns:1fr}
+  .fut-items{grid-template-columns:1fr}
+  .fut-main,.fut-quote{padding:20px 18px}
+  .fut-quote blockquote{font-size:17px}
   .stats{grid-template-columns:1fr 1fr}
   .topbar .wrap{height:auto;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
   .roleswitch{margin-left:0;width:100%}
@@ -306,7 +332,7 @@ h1,h2,h3,h4{margin:0;line-height:1.3;letter-spacing:-.01em}
 <header class="topbar hide" id="topbar">
   <div class="wrap">
     <button class="logo" onclick="go('landing')">
-      <span class="mark">餐</span><span>艋舺共餐時段板</span>
+      <span class="mark">善</span><span>艋舺善循環</span>
     </button>
     <div class="roleswitch">
       <button id="tab-group" onclick="go('group')">發餐團體端</button>
@@ -412,24 +438,47 @@ h1,h2,h3,h4{margin:0;line-height:1.3;letter-spacing:-.01em}
       <h2>未來延伸方向</h2>
       <p>本次 Demo 未實作，作為後續發展藍圖提出。</p>
     </div>
-    <div class="futs">
-      <div class="fut">
-        <div class="ic">🔗</div>
-        <h4>串接社福中心列冊資料</h4>
-        <p>與萬華社福中心既有的街友人數列冊系統介接，讓普查數字自動同步更新，減少人工輸入與資料落差。</p>
-        <div class="ph">第二階段</div>
-      </div>
-      <div class="fut">
-        <div class="ic">💬</div>
-        <h4>LINE／簡訊主動提醒</h4>
-        <p>當某時段接近超量登記時，自動通知後續想登記的團體，建議改往仍有需求的時段，降低撞期機率。</p>
-        <div class="ph">第二階段</div>
-      </div>
-      <div class="fut">
+    <div class="fut-main">
+      <div class="fut-lead">
         <div class="ic">🤝</div>
-        <h4>整合物資媒合網絡</h4>
-        <p>與臺北市全民食物銀行協會的媒合網絡串接，讓超出需求的份數能即時轉贈其他據點，而非丟棄。</p>
-        <div class="ph">第三階段</div>
+        <h3>其他整合功能：從一頓飯，延伸到一整年的照顧</h3>
+        <p>
+          發餐時段只是起點。同一張協調表可以延伸登記<b>物資捐贈與生活服務</b>，
+          讓團體的善意不只集中在便當、也不再擠在同一個季節，
+          真正形成一個接得起來的<b>善循環</b>。
+        </p>
+      </div>
+      <div class="fut-items">
+        <div class="fitem">
+          <div class="ft">捐贈物資</div>
+          <div class="fd">睡袋、衣物、保溫瓶等生活必需品的登記與媒合</div>
+        </div>
+        <div class="fitem">
+          <div class="ft">冬天保暖</div>
+          <div class="fd">寒流期間集中調度禦寒物資與熱食，補上最需要的時段</div>
+        </div>
+        <div class="fitem">
+          <div class="ft">洗澡時間</div>
+          <div class="fd">協調可提供沐浴的據點與開放時段，讓清潔不必碰運氣</div>
+        </div>
+        <div class="fitem">
+          <div class="ft">物資愛心倉庫</div>
+          <div class="fd">集中收存與盤點，超出需求的份數轉入倉庫而不是垃圾桶</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fut-quote">
+      <div class="q-lbl">為 什 麼 值 得 做</div>
+      <div class="q-name">冬至舞踏奉茶</div>
+      <blockquote>
+        不只是把物資交出去。一起跳一支舞、遞上一杯熱茶，
+        看見對方臉上的笑容、握到手心的溫度，隔閡就在那一刻融化——
+        人們會發現，他們其實沒有那麼可怕。
+      </blockquote>
+      <div class="q-foot">
+        餐食與物資解決的是<b>當下的匱乏</b>；面對面的接觸，改變的是<b>長期的形象與偏見</b>。
+        這是最難用數字衡量、卻最需要有人去做的一件事。
       </div>
     </div>
   </div>
